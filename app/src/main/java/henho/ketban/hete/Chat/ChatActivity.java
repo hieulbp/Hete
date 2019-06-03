@@ -1,13 +1,17 @@
-package com.simcoder.tinder.Chat;
+package henho.ketban.hete.Chat;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -15,10 +19,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.simcoder.tinder.Matches.MatchesActivity;
-import com.simcoder.tinder.Matches.MatchesAdapter;
-import com.simcoder.tinder.Matches.MatchesObject;
 import com.simcoder.tinder.R;
+
+import henho.ketban.hete.SendNotification;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,11 +31,15 @@ import java.util.Map;
 public class ChatActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mChatAdapter;
-    private RecyclerView.LayoutManager mChatLayoutManager;
+    private LinearLayoutManager mChatLayoutManager;
 
     private EditText mSendEditText;
 
-    private Button mSendButton;
+    private ImageView   mSendButton,
+                        mBack,
+                        mImage;
+
+    private TextView mName;
 
     private String currentUserID, matchId, chatId;
 
@@ -41,6 +48,8 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         matchId = getIntent().getExtras().getString("matchId");
 
@@ -51,16 +60,28 @@ public class ChatActivity extends AppCompatActivity {
 
         getChatId();
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecyclerView.setNestedScrollingEnabled(false);
-        mRecyclerView.setHasFixedSize(false);
-        mChatLayoutManager = new LinearLayoutManager(ChatActivity.this);
+        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setNestedScrollingEnabled(true);
+        mChatLayoutManager = new LinearLayoutManager(this);
+        mChatLayoutManager.setSmoothScrollbarEnabled(true);
         mRecyclerView.setLayoutManager(mChatLayoutManager);
-        mChatAdapter = new ChatAdapter(getDataSetChat(), ChatActivity.this);
+        mChatAdapter = new ChatAdapter(getDataSetChat(), this);
         mRecyclerView.setAdapter(mChatAdapter);
+
+
+        mName = findViewById(R.id.name);
+        mImage = findViewById(R.id.image);
 
         mSendEditText = findViewById(R.id.message);
         mSendButton = findViewById(R.id.send);
+        mBack = findViewById(R.id.back);
+
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +89,8 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessage();
             }
         });
+
+        getMatchInfo();
     }
 
     private void sendMessage() {
@@ -79,6 +102,9 @@ public class ChatActivity extends AppCompatActivity {
             Map newMessage = new HashMap();
             newMessage.put("createdByUser", currentUserID);
             newMessage.put("text", sendMessageText);
+
+            SendNotification sendNotification = new SendNotification();
+            sendNotification.SendNotification(sendMessageText, "new Message!", matchId);
 
             newMessageDb.setValue(newMessage);
         }
@@ -125,7 +151,16 @@ public class ChatActivity extends AppCompatActivity {
                         }
                         ChatObject newMessage = new ChatObject(message, currentUserBoolean);
                         resultsChat.add(newMessage);
+                        mChatLayoutManager.scrollToPosition(resultsChat.size() - 1);
                         mChatAdapter.notifyDataSetChanged();
+
+                        mRecyclerView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mRecyclerView.scrollToPosition(mRecyclerView.getAdapter().getItemCount() - 1);
+                            }
+                        }, 1000);
+
                     }
                 }
 
@@ -149,5 +184,33 @@ public class ChatActivity extends AppCompatActivity {
     private ArrayList<ChatObject> resultsChat = new ArrayList<ChatObject>();
     private List<ChatObject> getDataSetChat() {
         return resultsChat;
+    }
+
+
+    private void getMatchInfo(){
+        DatabaseReference mMatchDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(matchId);
+        mMatchDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0){
+                    String  name = "",
+                            profileImageUrl = "default";
+                    if(dataSnapshot.child("name").getValue()!=null)
+                        name = dataSnapshot.child("name").getValue().toString();
+                    if(dataSnapshot.child("profileImageUrl").getValue()!=null)
+                        profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
+
+                    mName.setText(name);
+                    if(!profileImageUrl.equals("default"))
+                        Glide.with(getApplicationContext()).load(profileImageUrl).apply(RequestOptions.circleCropTransform()).into(mImage);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

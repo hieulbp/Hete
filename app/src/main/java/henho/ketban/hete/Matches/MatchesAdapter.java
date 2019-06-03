@@ -1,4 +1,4 @@
-package com.simcoder.tinder.Matches;
+package henho.ketban.hete.Matches;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.simcoder.tinder.R;
 
 import java.util.List;
@@ -28,8 +29,8 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesViewHolders>{
     @Override
     public MatchesViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_matches, null, false);
-        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_match_list, null, false);
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutView.setLayoutParams(lp);
         MatchesViewHolders rcv = new MatchesViewHolders(layoutView);
 
@@ -38,11 +39,11 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesViewHolders>{
 
     @Override
     public void onBindViewHolder(MatchesViewHolders holder, int position) {
-        holder.mMatchId.setText(matchesList.get(position).getUserId());
+        holder.mLayout.setTag(matchesList.get(position).getUserId());
         holder.mMatchName.setText(matchesList.get(position).getName());
-        if(!matchesList.get(position).getProfileImageUrl().equals("default")){
-            Glide.with(context).load(matchesList.get(position).getProfileImageUrl()).into(holder.mMatchImage);
-        }
+        if(!matchesList.get(position).getProfileImageUrl().equals("default"))
+            Glide.with(context).load(matchesList.get(position).getProfileImageUrl()).apply(RequestOptions.circleCropTransform()).into(holder.mMatchImage);
+
     }
 
     @Override

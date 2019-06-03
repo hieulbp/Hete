@@ -1,4 +1,4 @@
-package com.simcoder.tinder;
+package henho.ketban.hete;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

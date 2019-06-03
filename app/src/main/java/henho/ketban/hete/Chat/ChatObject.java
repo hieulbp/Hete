@@ -1,4 +1,4 @@
-package com.simcoder.tinder.Chat;
+package henho.ketban.hete.Chat;
 
 /**
  * Created by manel on 10/31/2017.
