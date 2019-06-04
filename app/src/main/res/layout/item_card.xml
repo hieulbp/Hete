@@ -33,17 +33,34 @@
                 android:scaleType="centerCrop"
                 android:layout_above="@+id/name"
                 />
+
+
             <TextView
-                android:layout_gravity="bottom"
                 android:id="@+id/name"
-                android:textSize="30sp"
-                android:padding="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="85dp"
+                android:layout_gravity="bottom"
+                android:padding="10sp"
+                android:shadowColor="@color/colorBlack"
+                android:shadowRadius="20"
                 android:textColor="@color/colorWhite"
-                tools:text="hello"
+                android:textSize="30sp"
+                tools:text="hello" />
+
+            <TextView
+                android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:padding="10sp"
+                android:shadowColor="@color/colorBlack"
                 android:shadowRadius="20"
-                android:shadowColor="@color/colorBlack"/>
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                tools:text="address" />
+
+
+
 
         </FrameLayout>
     </android.support.v7.widget.CardView>

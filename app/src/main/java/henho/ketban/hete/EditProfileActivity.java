@@ -1,8 +1,11 @@
 package henho.ketban.hete;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -11,8 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -31,12 +37,16 @@ import com.simcoder.tinder.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import co.ceryle.radiorealbutton.RadioRealButtonGroup;
 
-public class EditProfileActivity extends AppCompatActivity {
+public class EditProfileActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
     private EditText    mName,
                         mPhone,
@@ -62,6 +72,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
     private Uri resultUri;
+    private Button btnSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +89,7 @@ public class EditProfileActivity extends AppCompatActivity {
         mAge = findViewById(R.id.age);
         mJob = findViewById(R.id.job);
         mAbout = findViewById(R.id.about);
+        btnSave = findViewById(R.id.btnSave);
 
         mRadioGroup = findViewById(R.id.radioRealButtonGroup);
 
@@ -87,6 +99,17 @@ public class EditProfileActivity extends AppCompatActivity {
         userId = mAuth.getCurrentUser().getUid();
 
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+
+        mAge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogDate();
+
+            }
+        });
+
+
+
 
         getUserInfo();
 
@@ -98,6 +121,21 @@ public class EditProfileActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveUserInformation();
+            }
+        });
+    }
+
+    private void showDialogDate() {
+        DatePickerDialog datePickerDialog= new DatePickerDialog(
+                this, this, Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show();
     }
 
 
@@ -144,6 +182,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void saveUserInformation() {
+        Toast.makeText(getApplicationContext(), "dfjgdkhgkldjshgkldhsfg", Toast.LENGTH_LONG).show();
         name = mName.getText().toString();
         phone = mPhone.getText().toString();
         age = mAge.getText().toString();
@@ -228,11 +267,37 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         }
     }
-    @Override
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        saveUserInformation();
-        return false;
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        //String date = dayOfMonth + "/" + month + "/" + year;
+        String age = getAge(year, month, dayOfMonth);
+        mAge.setText(age);
+
     }
+    private String getAge(int year, int month, int day){
+        Calendar dob = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+
+        dob.set(year, month, day);
+
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
+            age--;
+        }
+
+        Integer ageInt = new Integer(age);
+        String ageS = ageInt.toString();
+
+        return ageS;
+    }
+
+//    @Override
+
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        saveUserInformation();
+//        return false;
+//    }
 
 }

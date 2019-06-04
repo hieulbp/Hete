@@ -76,7 +76,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logoapp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -86,14 +86,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tinder Clone"
+                android:text="Hete"
                 android:textColor="@color/colorAccent"
                 android:textSize="30sp"
                 android:fontFamily="sans-serif-medium"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="By SimCoder"
+                android:text="app"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp"
                 android:fontFamily="sans-serif-thin" />

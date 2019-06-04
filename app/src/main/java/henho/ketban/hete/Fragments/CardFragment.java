@@ -1,6 +1,7 @@
 package henho.ketban.hete.Fragments;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import henho.ketban.hete.Cards.cardAdapter;
+import henho.ketban.hete.MainActivity;
 import henho.ketban.hete.SendNotification;
 import henho.ketban.hete.ZoomCardActivity;
 import henho.ketban.hete.Cards.cardObject;
@@ -213,21 +215,48 @@ public class CardFragment  extends Fragment {
                                     job = "",
                                     about = "",
                                     userSex = "",
-                                    profileImageUrl = "default";
+                                    profileImageUrl = "default",
+                                    address = "",
+                                    lattiude ="",
+                                    longitude ="",
+                                    kc ="";
                             if(dataSnapshot.child("name").getValue()!=null)
                                 name = dataSnapshot.child("name").getValue().toString();
                             if(dataSnapshot.child("sex").getValue()!=null)
                                 userSex = dataSnapshot.child("sex").getValue().toString();
                             if(dataSnapshot.child("age").getValue()!=null)
-                                age = dataSnapshot.child("age").getValue().toString();
+                                age = ", " +dataSnapshot.child("age").getValue().toString();
                             if(dataSnapshot.child("job").getValue()!=null)
                                 job = dataSnapshot.child("job").getValue().toString();
                             if(dataSnapshot.child("about").getValue()!=null)
                                 about = dataSnapshot.child("about").getValue().toString();
                             if (dataSnapshot.child("profileImageUrl").getValue()!=null)
                                 profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
+                            if(dataSnapshot.child("phone").getValue()!=null)
+                                address = dataSnapshot.child("phone").getValue().toString();
+                            if(dataSnapshot.child("lattiude").getValue()!=null)
+                                lattiude = dataSnapshot.child("lattiude").getValue().toString();
+                            if(dataSnapshot.child("longitude").getValue()!=null)
+                                longitude = dataSnapshot.child("longitude").getValue().toString();
 
-                            cardObject item = new cardObject(dataSnapshot.getKey(), name, age, about, job, profileImageUrl);
+
+                            if(lattiude!=null&& longitude!=null && MainActivity.lattitude!=null && MainActivity.longitude!=null) {
+                                Location locationA = new Location("point A");
+
+                                locationA.setLatitude(Double.parseDouble(lattiude));
+                                locationA.setLongitude(Double.parseDouble(longitude));
+
+                                Location locationB = new Location("point B");
+
+                                locationB.setLatitude(Double.parseDouble(MainActivity.lattitude));
+                                locationB.setLongitude(Double.parseDouble(MainActivity.longitude));
+                                int distance = Math.round(locationA.distanceTo(locationB) / 1000);
+                                kc = String.valueOf(distance) + "km away";
+                                if (kc.equals(""))
+                                    kc = "";
+                            }
+
+                            cardObject item = new cardObject(dataSnapshot.getKey(), name, age, about, job, profileImageUrl, address, kc );
 
                             for(int i = 0; i < rowItems.size();i++)
                                 if(rowItems.get(i) == item)

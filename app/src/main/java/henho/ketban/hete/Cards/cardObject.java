@@ -12,14 +12,22 @@ public class cardObject implements Serializable {
                     profileImageUrl,
                     age,
                     about,
-                    job;
-    public cardObject(String userId, String name, String age, String about, String job, String profileImageUrl){
+                    job,
+                    address,
+                    location;
+
+
+
+
+    public cardObject(String userId, String name, String age, String about, String job, String profileImageUrl, String address, String location){
         this.userId = userId;
         this.name = name;
         this.profileImageUrl = profileImageUrl;
         this.age = age;
         this.about = about;
         this.job = job;
+        this.address = address;
+        this.location = location;
     }
 
     public String getUserId(){
@@ -39,5 +47,11 @@ public class cardObject implements Serializable {
     }
     public String getProfileImageUrl(){
         return profileImageUrl;
+    }
+    public String getAddress() {
+        return address;
+    }
+    public String getLocation() {
+        return location;
     }
 }

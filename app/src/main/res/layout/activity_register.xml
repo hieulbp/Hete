@@ -12,8 +12,9 @@
 
     <ImageView
         android:layout_width="wrap_content"
+        android:id="@+id/avatar"
         android:layout_height="100dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/upload" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -32,6 +33,17 @@
             android:textColor="@android:color/white"
             android:textSize="20sp" />
     </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColorHint="#cccccc"
+        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"/>
+
+
+
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,6 +78,9 @@
             android:textColor="@android:color/white"
             android:textSize="20sp" />
     </android.support.design.widget.TextInputLayout>
+
+
+
 
     <co.ceryle.radiorealbutton.RadioRealButtonGroup
         android:id="@+id/radioRealButtonGroup"
@@ -117,7 +132,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:background="@color/colorAccent"
+        android:background="@drawable/backgroundcolor"
         android:text="Register"
         android:id="@+id/register"
         android:textColor="@android:color/white" />

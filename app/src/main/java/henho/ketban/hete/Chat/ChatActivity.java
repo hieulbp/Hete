@@ -213,4 +213,26 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void active(String ac)
+    {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        Map userInfo = new HashMap<>();
+        userInfo.put("active", ac);
+        currentUserDb.updateChildren(userInfo);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        active("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        active("offline");
+    }
 }

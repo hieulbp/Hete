@@ -72,22 +72,24 @@
             android:hint="Add About"/>
 
         <TextView
-            android:paddingTop="20sp"
-            android:paddingLeft="10sp"
-            android:paddingBottom="5sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone"
             android:inputType="phone"
+            android:paddingLeft="10sp"
+            android:paddingTop="20sp"
+            android:paddingBottom="5sp"
+            android:text="Adress"
 
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="TextViewEdits" />
+
         <EditText
-            android:padding="10sp"
+            android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/phone"
             android:background="@color/colorWhite"
-            android:hint="Add Phone"/>
+            android:hint="Add Adress"
+            android:padding="10sp" />
 
         <TextView
             android:paddingTop="20sp"
@@ -97,14 +99,17 @@
             android:layout_height="wrap_content"
             android:text="Age"
             android:textStyle="bold" />
+
         <EditText
-            android:inputType="number"
-            android:padding="10sp"
+            android:id="@+id/age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/age"
             android:background="@color/colorWhite"
-            android:hint="Add Age"/>
+            android:hint="Add Birthday"
+            android:focusable="false"
+
+            android:inputType="number"
+            android:padding="10sp" />
 
         <TextView
             android:paddingTop="20sp"
@@ -179,6 +184,12 @@
                 app:rrb_textColor="@color/colorPrimary"
                 app:rrb_textSize="12sp"/>
         </co.ceryle.radiorealbutton.RadioRealButtonGroup>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/btnSave"
+            android:text="SAVE"/>
 
 
 

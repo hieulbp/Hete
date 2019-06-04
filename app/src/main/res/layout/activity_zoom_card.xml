@@ -25,22 +25,38 @@
 
         <TextView
             android:layout_gravity="bottom"
+            android:drawableLeft="@drawable/name"
+            android:drawablePadding="10sp"
+            android:drawableTint="@color/colorBlack"
             android:id="@+id/name"
             android:textSize="30sp"
-            android:padding="20sp"
+            android:padding="10sp"
             android:textColor="@color/colorBlack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:drawableLeft="@drawable/ic_user"
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:drawableLeft="@drawable/address"
+            android:drawablePadding="10sp"
+            android:drawableTint="@color/colorBlack"
+            android:padding="10sp"
+            android:text="address"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp" />
+
+        <TextView
+            android:drawableLeft="@drawable/job"
             android:drawableTint="@color/colorBlack"
             android:drawablePadding="10sp"
             android:text="job"
             android:layout_gravity="bottom"
             android:id="@+id/job"
             android:textSize="20sp"
-            android:padding="20sp"
+            android:padding="10sp"
             android:textColor="@color/colorBlack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -52,9 +68,13 @@
 
         <TextView
             android:layout_gravity="bottom"
+            android:drawableLeft="@drawable/about"
+            android:drawablePadding="10sp"
+            android:drawableTint="@color/colorBlack"
             android:id="@+id/about"
             android:textSize="16sp"
             android:padding="20sp"
+            android:text="about"
             android:textColor="@color/colorBlack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

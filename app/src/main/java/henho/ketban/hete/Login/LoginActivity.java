@@ -40,9 +40,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user !=null){
+                    Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
+
                     return;
                 }
             }
@@ -60,14 +62,32 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String email = mEmail.getText().toString();
                 final String password = mPassword.getText().toString();
-                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()){
-                            Snackbar.make(findViewById(R.id.layout), "sign in error", Toast.LENGTH_SHORT).show();
+
+                if(email.equals("") && password.equals("") )
+                {
+                    Snackbar.make(findViewById(R.id.layout), "Email & Password not null", Toast.LENGTH_SHORT).show();
+                }
+                else if(email.equals(""))
+                {
+                    Snackbar.make(findViewById(R.id.layout), "Email not null", Toast.LENGTH_SHORT).show();
+                }
+                else if(password.equals(""))
+                {
+                    Snackbar.make(findViewById(R.id.layout), "Password not null", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()) {
+                                Snackbar.make(findViewById(R.id.layout), "email or password is incorrect", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+
+                            }
                         }
-                    }
-                });
+                    });
+                }
 
             }
         });
@@ -81,9 +101,9 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Snackbar.make(findViewById(R.id.layout), "Email Sent", Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(findViewById(R.id.layout), "Check email", Snackbar.LENGTH_LONG).show();
                                 }else
-                                    Snackbar.make(findViewById(R.id.layout), "Something went wrong", Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(findViewById(R.id.layout), "email or password is incorrect", Snackbar.LENGTH_LONG).show();
                             }
                         });
             }

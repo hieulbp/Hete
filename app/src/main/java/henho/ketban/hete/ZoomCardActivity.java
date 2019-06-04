@@ -15,9 +15,11 @@ public class ZoomCardActivity extends AppCompatActivity {
 
     private TextView    mName,
                         mJob,
-                        mAbout;
+                        mAbout,
+                        mAddress;
 
     private ImageView mImage;
+    private String loc ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +33,15 @@ public class ZoomCardActivity extends AppCompatActivity {
         mJob = findViewById(R.id.job);
         mAbout = findViewById(R.id.about);
         mImage = findViewById(R.id.image);
+        mAddress = findViewById(R.id.address);
 
-        mName.setText(mCardObject.getName() + ", " + mCardObject.getAge());
+        mName.setText(mCardObject.getName() + mCardObject.getAge());
         mJob.setText(mCardObject.getJob());
         mAbout.setText(mCardObject.getAbout());
+        if(mCardObject.getLocation()!= null) {
+             loc = mCardObject.getLocation();
+        }
+        mAddress.setText(mCardObject.getAddress()+ ", " + loc);
 
         if(!mCardObject.getProfileImageUrl().equals("default"))
             Glide.with(getApplicationContext()).load(mCardObject.getProfileImageUrl()).into(mImage);

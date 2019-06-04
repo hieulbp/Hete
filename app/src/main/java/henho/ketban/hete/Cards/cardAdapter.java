@@ -32,9 +32,12 @@ public class cardAdapter extends ArrayAdapter<cardObject>{
         }
 
         TextView name = convertView.findViewById(R.id.name);
+        TextView address = convertView.findViewById(R.id.address);
+
         ImageView image = convertView.findViewById(R.id.image);
 
-        name.setText(card_item.getName() + ", " + card_item.getAge());
+        name.setText(card_item.getName() + card_item.getAge());
+        address.setText(card_item.getLocation() );
 
         if(!card_item.getProfileImageUrl().equals("default"))
             Glide.with(convertView.getContext()).load(card_item.getProfileImageUrl()).into(image);

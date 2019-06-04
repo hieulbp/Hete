@@ -14,7 +14,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        manifestPlaceholders = [onesignal_app_id: 'INSERT_YOUR_ONESIGNAL_APP_ID_HERE',
+        manifestPlaceholders = [onesignal_app_id: 'ea90ab78-50b4-4b2e-9dd7-6828821e0833',
                                 onesignal_google_project_number: 'REMOTE']
     }
     buildTypes {
@@ -44,6 +44,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     implementation 'com.lorentzos.swipecards:library:1.0.9'
     implementation 'com.github.ceryle:RadioRealButton:v2.1.1'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+
 
     testImplementation 'junit:junit:4.12'
 }
