@@ -48,6 +48,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListViewHolders>{
         holder.mMessage.setText(matchesList.get(position).getLastMessage());
         if(!matchesList.get(position).getProfileImageUrl().equals("default"))
             Glide.with(context).load(matchesList.get(position).getProfileImageUrl()).apply(RequestOptions.circleCropTransform()).into(holder.mImage);
+        if(!matchesList.get(position).getActive().equals("http://xemmienphi.xyz/hieumlxam.png"))
+            Glide.with(context).load(matchesList.get(position).getActive()).apply(RequestOptions.circleCropTransform()).into(holder.mOnline);
+
 
     }
 

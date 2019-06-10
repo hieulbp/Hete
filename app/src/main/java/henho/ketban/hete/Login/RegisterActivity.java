@@ -1,6 +1,7 @@
 package henho.ketban.hete.Login;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -36,14 +38,16 @@ import com.simcoder.tinder.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import co.ceryle.radiorealbutton.RadioRealButtonGroup;
 
-public class RegisterActivity extends AppCompatActivity {
-    private EditText mEmail, mPassword, mName;
+public class RegisterActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener{
+    private EditText mEmail, mPassword, mName, mAge;
     private Button mRegistration;
 
     private FirebaseAuth mAuth;
@@ -52,6 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ImageView mImaAvatar;
     private Uri resultUri;
     private RadioRealButtonGroup mRadioGroup;
+    private String Age;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
         mPassword = findViewById(R.id.password);
         mName = findViewById(R.id.name);
         mImaAvatar = findViewById(R.id.avatar);
+        mAge = findViewById(R.id.age);
 
         mRegistration = findViewById(R.id.register);
 
@@ -94,12 +100,20 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        mAge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogDate();
+
+            }
+        });
         mRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String email = mEmail.getText().toString();
                 final String password = mPassword.getText().toString();
                 final String name = mName.getText().toString();
+                final String age = Age;
                 final String accountType;
                 int selectId = mRadioGroup.getPosition();
 
@@ -112,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity {
                         accountType = "Male";
                 }
 
-                if(email.equals("") || password.equals("") || name.equals(""))
+                if(email.equals("") || password.equals("") || name.equals("") || age.equals(""))
                 {
                     Snackbar.make(findViewById(R.id.layout), "Register error", Toast.LENGTH_SHORT).show();
                 }
@@ -133,12 +147,18 @@ public class RegisterActivity extends AppCompatActivity {
                                 if (!task.isSuccessful()) {
                                     Toast.makeText(RegisterActivity.this, "sign up error", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    String userId = mAuth.getCurrentUser().getUid();
+                                    String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
                                     final DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-                                    Map userInfo = new HashMap<>();
+                                    Map<String, Object> userInfo = new HashMap<>();
                                     userInfo.put("name", name);
                                     userInfo.put("sex", accountType);
                                     userInfo.put("profileImageUrl", "default");
+                                    userInfo.put("distance", "100");
+                                    userInfo.put("minage", "0");
+                                    userInfo.put("maxage", "100");
+                                    userInfo.put("age", age);
+                                    userInfo.put("lattiude", "0");
+                                    userInfo.put("longitude", "0");
                                     switch (accountType) {
                                         case "Male":
                                             userInfo.put("interest", "Female");
@@ -205,6 +225,15 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    private void showDialogDate() {
+        DatePickerDialog datePickerDialog= new DatePickerDialog(
+                this, this, Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show();
+    }
+
 
     @Override
     protected void onStart() {
@@ -246,5 +275,28 @@ public class RegisterActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Age = getAge(year, month, dayOfMonth);
+        mAge.setText(dayOfMonth+"/"+month+"/"+year);
+    }
+    private String getAge(int year, int month, int day){
+        Calendar dob = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+
+        dob.set(year, month, day);
+
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
+            age--;
+        }
+
+        Integer ageInt = new Integer(age);
+        String ageS = ageInt.toString();
+
+        return ageS;
     }
 }

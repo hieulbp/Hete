@@ -125,6 +125,7 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
             @Override
             public void onClick(View v) {
                 saveUserInformation();
+                //finish();
             }
         });
     }
@@ -299,5 +300,27 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
 //        saveUserInformation();
 //        return false;
 //    }
+
+    private void active(String ac)
+    {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("active", ac);
+        currentUserDb.updateChildren(userInfo);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        active("http://xemmienphi.xyz/hieumlxanh.png");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        active("http://xemmienphi.xyz/hieumlxam.png");
+    }
 
 }

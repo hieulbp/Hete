@@ -59,6 +59,8 @@ public class MatchesFragment extends Fragment {
         getChats();
         getNewMatches();
 
+
+
         return view;
     }
 
@@ -84,7 +86,7 @@ public class MatchesFragment extends Fragment {
     }
 
     private void getUserMatchId() {
-        DatabaseReference matchDb = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID).child("connections").child("matches");
+        final DatabaseReference matchDb = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID).child("connections").child("matches");
         matchDb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -116,7 +118,8 @@ public class MatchesFragment extends Fragment {
                     String  userId = dataSnapshot.getKey(),
                             name = "",
                             profileImageUrl = "",
-                            chatId = "";
+                            chatId = "",
+                           active="http://xemmienphi.xyz/hieumlxam.png";
 
                     if(dataSnapshot.child("name").getValue()!=null)
                         name = dataSnapshot.child("name").getValue().toString();
@@ -124,7 +127,8 @@ public class MatchesFragment extends Fragment {
                         profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
                     if(dataSnapshot.child("connections").child("matches").child(FirebaseAuth.getInstance().getUid()).child("ChatId").getValue()!=null)
                         chatId = dataSnapshot.child("connections").child("matches").child(FirebaseAuth.getInstance().getUid()).child("ChatId").getValue().toString();
-
+                    if(!dataSnapshot.child("active").getValue().equals("http://xemmienphi.xyz/hieumlxam.png"))
+                        active = dataSnapshot.child("active").getValue().toString();
 
 
                     for(int i = 0; i < resultsMatches.size(); i++){
@@ -132,7 +136,7 @@ public class MatchesFragment extends Fragment {
                             return;
                     }
 
-                    MatchesObject obj = new MatchesObject(userId, name, profileImageUrl, chatId, "");
+                    MatchesObject obj = new MatchesObject(userId, name, profileImageUrl, chatId, "", active);
                     resultsMatches.add(obj);
                     mMatchesAdapter.notifyDataSetChanged();
                     if(!chatId.equals(""))

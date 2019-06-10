@@ -175,6 +175,8 @@ public class CardFragment  extends Fragment {
     }
 
     private String  userInterest;
+    private int  distance;
+    private int ageMin = 0, ageMax = 100;
 
     public void checkUserSex(){
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -186,6 +188,15 @@ public class CardFragment  extends Fragment {
 
                     if (dataSnapshot.child("interest").getValue() != null)
                         userInterest = dataSnapshot.child("interest").getValue().toString();
+                    if (dataSnapshot.child("distance").getValue() != null)
+                        distance = Integer.parseInt(dataSnapshot.child("distance").getValue().toString());
+                    if (dataSnapshot.child("minage").getValue() != null)
+                        ageMin = Integer.parseInt(dataSnapshot.child("minage").getValue().toString());
+                    if (dataSnapshot.child("maxage").getValue() != null)
+                        ageMax = Integer.parseInt(dataSnapshot.child("maxage").getValue().toString());
+
+
+
 
                     rowItems.clear();
                     cardAdapter.notifyDataSetChanged();
@@ -209,38 +220,43 @@ public class CardFragment  extends Fragment {
                         return;
 
                     if (dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUId) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUId)) {
-                        if(dataSnapshot.child("sex").getValue().toString().equals(userInterest) || userInterest.equals("Both")){
-                            String  name = "",
+                        if((dataSnapshot.child("sex").getValue().toString().equals(userInterest) || userInterest.equals("Both")) ) {
+                            String name = "",
                                     age = "",
                                     job = "",
                                     about = "",
                                     userSex = "",
                                     profileImageUrl = "default",
                                     address = "",
-                                    lattiude ="",
-                                    longitude ="",
-                                    kc ="";
-                            if(dataSnapshot.child("name").getValue()!=null)
+                                    lattiude = "",
+                                    longitude = "",
+                                    kc = "";
+                            int Age = 0;
+                            if (dataSnapshot.child("name").getValue() != null)
                                 name = dataSnapshot.child("name").getValue().toString();
-                            if(dataSnapshot.child("sex").getValue()!=null)
+                            if (dataSnapshot.child("sex").getValue() != null)
                                 userSex = dataSnapshot.child("sex").getValue().toString();
-                            if(dataSnapshot.child("age").getValue()!=null)
-                                age = ", " +dataSnapshot.child("age").getValue().toString();
-                            if(dataSnapshot.child("job").getValue()!=null)
+                            if (dataSnapshot.child("age").getValue() != null){
+                                age = dataSnapshot.child("age").getValue().toString();
+                                Age = Integer.parseInt(age);
+                                age = ", " + age;}
+                            if (dataSnapshot.child("job").getValue() != null)
                                 job = dataSnapshot.child("job").getValue().toString();
-                            if(dataSnapshot.child("about").getValue()!=null)
+                            if (dataSnapshot.child("about").getValue() != null)
                                 about = dataSnapshot.child("about").getValue().toString();
-                            if (dataSnapshot.child("profileImageUrl").getValue()!=null)
+                            if (dataSnapshot.child("profileImageUrl").getValue() != null)
                                 profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
-                            if(dataSnapshot.child("phone").getValue()!=null)
+                            if (dataSnapshot.child("phone").getValue() != null)
                                 address = dataSnapshot.child("phone").getValue().toString();
-                            if(dataSnapshot.child("lattiude").getValue()!=null)
+                            if (dataSnapshot.child("lattiude").getValue() != null)
                                 lattiude = dataSnapshot.child("lattiude").getValue().toString();
-                            if(dataSnapshot.child("longitude").getValue()!=null)
+                            if (dataSnapshot.child("longitude").getValue() != null)
                                 longitude = dataSnapshot.child("longitude").getValue().toString();
 
 
-                            if(lattiude!=null&& longitude!=null && MainActivity.lattitude!=null && MainActivity.longitude!=null) {
+                            int Distance = 0;
+
+                            if (lattiude != null && longitude != null && MainActivity.lattitude != null && MainActivity.longitude != null) {
                                 Location locationA = new Location("point A");
 
                                 locationA.setLatitude(Double.parseDouble(lattiude));
@@ -250,20 +266,29 @@ public class CardFragment  extends Fragment {
 
                                 locationB.setLatitude(Double.parseDouble(MainActivity.lattitude));
                                 locationB.setLongitude(Double.parseDouble(MainActivity.longitude));
-                                int distance = Math.round(locationA.distanceTo(locationB) / 1000);
-                                kc = String.valueOf(distance) + "km away";
+                                Distance = Math.round(locationA.distanceTo(locationB) / 1000);
+                                kc = String.valueOf(Distance) + "km away";
                                 if (kc.equals(""))
                                     kc = "";
                             }
 
-                            cardObject item = new cardObject(dataSnapshot.getKey(), name, age, about, job, profileImageUrl, address, kc );
 
-                            for(int i = 0; i < rowItems.size();i++)
-                                if(rowItems.get(i) == item)
-                                    return;
 
-                            rowItems.add(item);
-                            cardAdapter.notifyDataSetChanged();
+                            if ((Distance <= distance) && (ageMax >= Age) &&  (ageMin <= Age)){
+
+                                    cardObject item = new cardObject(dataSnapshot.getKey(), name, age, about, job, profileImageUrl, address, kc);
+                                    for (int i = 0; i < rowItems.size(); i++)
+                                        if (rowItems.get(i) == item)
+                                            return;
+                                    rowItems.add(item);
+                                    cardAdapter.notifyDataSetChanged();
+
+
+
+
+                            }
+
+
                         }
                     }
                 }

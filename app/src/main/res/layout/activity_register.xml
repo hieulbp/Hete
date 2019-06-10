@@ -10,6 +10,10 @@
     android:padding="40dp"
     android:id="@+id/layout">
 
+
+
+
+
     <ImageView
         android:layout_width="wrap_content"
         android:id="@+id/avatar"
@@ -34,12 +38,26 @@
             android:textSize="20sp" />
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textColorHint="#cccccc"
-        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="#cccccc"
+            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorWhite"
+                android:drawableLeft="@drawable/ic_user"
+                android:focusable="false"
+                android:hint="     Birthday"
+                android:id="@+id/age"
+                android:inputType="textEmailAddress"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </android.support.design.widget.TextInputLayout>
+
+
 
 
 

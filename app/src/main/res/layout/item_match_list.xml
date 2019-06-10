@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10sp"
     android:gravity="center"
     android:id="@+id/layout">
-    <ImageView
-        android:layout_marginBottom="10sp"
-        android:layout_width="75sp"
-        android:layout_height="75sp"
-        android:src="@mipmap/ic_user_default"
-        android:id="@+id/MatchImage"/>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/MatchImage"
+            android:layout_width="75sp"
+            android:layout_height="75sp"
+            android:src="@mipmap/ic_user_default"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/activeonline"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/MatchImage" />
+
+    </android.support.constraint.ConstraintLayout>
+
     <TextView
         android:textStyle="bold"
         android:textSize="14sp"

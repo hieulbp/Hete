@@ -1,6 +1,7 @@
 package henho.ketban.hete.Cards;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.simcoder.tinder.R;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by manel on 9/5/2017.
@@ -35,6 +38,7 @@ public class cardAdapter extends ArrayAdapter<cardObject>{
         TextView address = convertView.findViewById(R.id.address);
 
         ImageView image = convertView.findViewById(R.id.image);
+
 
         name.setText(card_item.getName() + card_item.getAge());
         address.setText(card_item.getLocation() );

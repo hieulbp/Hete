@@ -19,6 +19,7 @@ public class cardObject implements Serializable {
 
 
 
+
     public cardObject(String userId, String name, String age, String about, String job, String profileImageUrl, String address, String location){
         this.userId = userId;
         this.name = name;
@@ -54,4 +55,5 @@ public class cardObject implements Serializable {
     public String getLocation() {
         return location;
     }
+
 }

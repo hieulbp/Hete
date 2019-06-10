@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
@@ -24,7 +23,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.onesignal.OneSignal;
@@ -36,7 +34,6 @@ import henho.ketban.hete.Fragments.MatchesFragment;
 import com.simcoder.tinder.R;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +69,7 @@ public class MainActivity extends AppCompatActivity   {
             String b = longitude;
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-            Map userInfo = new HashMap<>();
+            Map<String, Object> userInfo = new HashMap<>();
             userInfo.put("lattiude", lattitude);
             userInfo.put("longitude", longitude);
 
@@ -83,6 +80,7 @@ public class MainActivity extends AppCompatActivity   {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference currentUserDb1 = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("connections").child("nope");
         currentUserDb1.setValue(null);
+
         //save the notificationID to the database
         OneSignal.startInit(this).init();
         OneSignal.sendTag("User_ID", FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -189,7 +187,7 @@ public class MainActivity extends AppCompatActivity   {
     {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-        Map userInfo = new HashMap<>();
+        Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("active", ac);
         currentUserDb.updateChildren(userInfo);
 
@@ -198,13 +196,13 @@ public class MainActivity extends AppCompatActivity   {
     @Override
     protected void onResume() {
         super.onResume();
-        active("online");
+        active("http://xemmienphi.xyz/hieumlxanh.png");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        active("offline");
+        active("http://xemmienphi.xyz/hieumlxam.png");
     }
 
     private void getLocation() {

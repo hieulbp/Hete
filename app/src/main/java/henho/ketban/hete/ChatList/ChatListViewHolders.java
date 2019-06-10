@@ -18,7 +18,7 @@ import com.simcoder.tinder.R;
 public class ChatListViewHolders extends RecyclerView.ViewHolder implements View.OnClickListener{
     public TextView mName,
                     mMessage;
-    public ImageView mImage;
+    public ImageView mImage, mOnline;
     public LinearLayout mLayout;
     public ChatListViewHolders(View itemView) {
         super(itemView);
@@ -28,6 +28,7 @@ public class ChatListViewHolders extends RecyclerView.ViewHolder implements View
         mName = itemView.findViewById(R.id.name);
         mMessage = itemView.findViewById(R.id.message);
         mImage = itemView.findViewById(R.id.image);
+        mOnline = itemView.findViewById(R.id.acitveonline);
     }
 
     @Override

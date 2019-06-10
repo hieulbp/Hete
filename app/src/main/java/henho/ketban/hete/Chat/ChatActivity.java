@@ -37,7 +37,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private ImageView   mSendButton,
                         mBack,
-                        mImage;
+                        mImage,
+                        mOnline;
 
     private TextView mName;
 
@@ -71,7 +72,7 @@ public class ChatActivity extends AppCompatActivity {
 
         mName = findViewById(R.id.name);
         mImage = findViewById(R.id.image);
-
+        mOnline = findViewById(R.id.online);
         mSendEditText = findViewById(R.id.message);
         mSendButton = findViewById(R.id.send);
         mBack = findViewById(R.id.back);
@@ -194,15 +195,20 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0){
                     String  name = "",
-                            profileImageUrl = "default";
+                            profileImageUrl = "default",
+                            active="http://xemmienphi.xyz/hieumlxam.png";
                     if(dataSnapshot.child("name").getValue()!=null)
                         name = dataSnapshot.child("name").getValue().toString();
                     if(dataSnapshot.child("profileImageUrl").getValue()!=null)
                         profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
+                    if(dataSnapshot.child("active").getValue()!=null)
+                        active = dataSnapshot.child("active").getValue().toString();
 
                     mName.setText(name);
                     if(!profileImageUrl.equals("default"))
                         Glide.with(getApplicationContext()).load(profileImageUrl).apply(RequestOptions.circleCropTransform()).into(mImage);
+                    if(!active.equals("http://xemmienphi.xyz/hieumlxam.png"))
+                        Glide.with(getApplicationContext()).load(active).apply(RequestOptions.circleCropTransform()).into(mOnline);
 
                 }
             }
@@ -227,12 +233,12 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        active("online");
+        active("http://xemmienphi.xyz/hieumlxanh.png");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        active("offline");
+        active("http://xemmienphi.xyz/hieumlxam.png");
     }
 }

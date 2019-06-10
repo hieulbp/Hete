@@ -35,7 +35,7 @@
             android:paddingBottom="5sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Interested In"
+            android:text="Giới tính"
             android:textStyle="bold" />
         <co.ceryle.radiorealbutton.RadioRealButtonGroup
             android:id="@+id/radioRealButtonGroup"
@@ -98,6 +98,77 @@
                 app:rrb_textSize="12sp"/>
         </co.ceryle.radiorealbutton.RadioRealButtonGroup>
 
+        <TextView
+            android:paddingLeft="10sp"
+            android:paddingBottom="5sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bán kính (km)"
+            android:textStyle="bold" />
+
+        <com.jaygoo.widget.RangeSeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:rsb_mode="single"
+            android:id="@+id/seekbar"
+            app:rsb_tick_mark_text_margin="7dp"
+            app:rsb_tick_mark_text_size="12dp"
+            app:rsb_indicator_height="20dp"
+            app:rsb_indicator_width="20dp"
+            app:rsb_indicator_show_mode="alwaysShow"
+            app:rsb_indicator_padding_left="2dp"
+            app:rsb_indicator_padding_right="2dp"
+            app:rsb_indicator_padding_top="2dp"
+            app:rsb_indicator_padding_bottom="2dp"
+            app:rsb_indicator_margin="2dp"
+            app:rsb_indicator_arrow_size="6dp"
+            app:rsb_indicator_radius="4dp"
+            app:rsb_thumb_scale_ratio="1.2"
+            app:rsb_thumb_size="26dp"
+
+            />
+
+        <TextView
+            android:paddingLeft="10sp"
+            android:paddingBottom="5sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Độ tuổi"
+            android:textStyle="bold" />
+
+        <com.jaygoo.widget.RangeSeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:rsb_mode="range"
+            android:id="@+id/seekbar2"
+            app:rsb_tick_mark_text_margin="7dp"
+            app:rsb_tick_mark_text_size="12dp"
+            app:rsb_indicator_height="20dp"
+            app:rsb_indicator_width="20dp"
+            app:rsb_indicator_show_mode="alwaysShow"
+            app:rsb_indicator_padding_left="2dp"
+            app:rsb_indicator_padding_right="2dp"
+            app:rsb_indicator_padding_top="2dp"
+            app:rsb_indicator_padding_bottom="2dp"
+            app:rsb_indicator_margin="2dp"
+            app:rsb_indicator_arrow_size="6dp"
+            app:rsb_indicator_radius="4dp"
+            app:rsb_thumb_scale_ratio="1.2"
+            app:rsb_thumb_size="26dp"
+
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@color/colorAccent"
+            android:text="Save"
+            android:id="@+id/save"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@android:color/white" />
+
 
         <Button
             android:layout_width="match_parent"
@@ -106,6 +177,8 @@
             android:background="@color/colorAccent"
             android:text="LogOut"
             android:id="@+id/logOut"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
             android:textColor="@android:color/white" />
 
     </LinearLayout>

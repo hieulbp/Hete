@@ -43,6 +43,9 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesViewHolders>{
         holder.mMatchName.setText(matchesList.get(position).getName());
         if(!matchesList.get(position).getProfileImageUrl().equals("default"))
             Glide.with(context).load(matchesList.get(position).getProfileImageUrl()).apply(RequestOptions.circleCropTransform()).into(holder.mMatchImage);
+        if(!matchesList.get(position).getActive().equals("http://xemmienphi.xyz/hieumlxam.png"))
+            Glide.with(context).load(matchesList.get(position).getActive()).apply(RequestOptions.circleCropTransform()).into(holder.mActive);
+
 
     }
 

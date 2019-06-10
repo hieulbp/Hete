@@ -9,7 +9,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import henho.ketban.hete.Cards.cardObject;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.simcoder.tinder.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ZoomCardActivity extends AppCompatActivity {
 
@@ -41,11 +47,37 @@ public class ZoomCardActivity extends AppCompatActivity {
         if(mCardObject.getLocation()!= null) {
              loc = mCardObject.getLocation();
         }
-        mAddress.setText(mCardObject.getAddress()+ ", " + loc);
+        if(!mCardObject.getAddress().equals(""))
+            mAddress.setText(mCardObject.getAddress()+ ", " + loc);
+        if(mCardObject.getAddress().equals(""))
+            mAddress.setText(loc);
 
         if(!mCardObject.getProfileImageUrl().equals("default"))
             Glide.with(getApplicationContext()).load(mCardObject.getProfileImageUrl()).into(mImage);
     }
+
+    private void active(String ac)
+    {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("active", ac);
+        currentUserDb.updateChildren(userInfo);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        active("http://xemmienphi.xyz/hieumlxanh.png");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        active("http://xemmienphi.xyz/hieumlxam.png");
+    }
+
 
 
 

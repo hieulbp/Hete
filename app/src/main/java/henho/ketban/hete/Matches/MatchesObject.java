@@ -9,14 +9,17 @@ public class MatchesObject {
             name,
             lastMessage,
             chatId,
-            profileImageUrl;
+            profileImageUrl,
+            active;
 
-    public MatchesObject(String userId, String name, String profileImageUrl, String chatId, String lastMessage){
+
+    public MatchesObject(String userId, String name, String profileImageUrl, String chatId, String lastMessage, String active){
         this.userId = userId;
         this.name = name;
         this.profileImageUrl = profileImageUrl;
         this.lastMessage = lastMessage;
         this.chatId = chatId;
+        this.active = active;
     }
 
     public String getUserId(){
@@ -35,6 +38,9 @@ public class MatchesObject {
         return profileImageUrl;
     }
 
+    public String getActive() {
+        return active;
+    }
 
     public void setLastMessage(String lastMessage){
         this.lastMessage = lastMessage;
